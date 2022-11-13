@@ -81,64 +81,46 @@ const initializeDom = () => {
 
 }
 
-export default initializeDom
+const initializeModals = () => {
 
-/* <div class="sidebar">
-        <nav>
-            <div class="project">Project1</div>
-            <hr>
-            <div class="project">Project2</div>
-            <hr>
-            <div><div class="add">+</div></div>
-        </nav>
-    </div>
-    <div class="content">
-        <div class="todo">
-            <div>
-                <!-- <input type="radio"> -->
-                <div class="checkBox"></div>
-            </div>
-            <div>Text of To Do</div>
-            <div>15/10/22</div>
-            <div>
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M14.4,6L14,4H5V21H7V14H12.6L13,16H20V6H14.4Z" />
-                </svg>
-            </div>
-        </div>
-        <div class="todo">To Do 2</div>
-        <div class="todo">To Do 3</div>
-        <div><div class="add">+</div></div>
-    </div>
+    const openModalButtons = document.querySelectorAll("[data-open-modal]");
+    const closeModalButtons = document.querySelectorAll("[data-close-modal]")
+    const overlay = document.querySelector('#overlay');
 
-    <div class="overlay" id="overlay"></div>
+    openModalButtons.forEach( button =>{
+        button.addEventListener('click' , (e) => {
+            const idOpen = e.target.dataset.openModal;
+            const modalToOpen = document.querySelector(idOpen);
+            openModal(modalToOpen);
+        })
+    })
 
-    <div class="modal" id="modal">
-        <form id="newToDo" name="newToDo" action="">
-            <div class="field">
-                <label for="title">Title: *</label>
-                <input  type="text" 
-                    id="title" 
-                    name="title" 
-                    required 
-                    placeholder=" "
-                    maxlength="245">
-            </div>
-            <div class="field">
-                <label for="notes">Notes:</label>
-                <textarea  id="notes" name="notes" rows="4" cols="50"></textarea> 
-            </div>
-            <div class="field">
-                <label for="date">Date:</label>
-                <input  type="date" 
-                    id="date" 
-                    name="date" 
-                    >   
-            </div>
-            
-            <button type="button" class="addToDo" id="addToDo">Submit</button>
-        </form>
+    closeModalButtons.forEach(button => {
+        button.addEventListener('click', () =>{
+            const modalToClose= button.closest('.modal');
+            closeModal(modalToClose);
+        });
 
-    </div> */
+    });
 
-// Print To Do
+    overlay.addEventListener('click', () => {
+        const modals = document.querySelectorAll('.modal.active')
+        modals.forEach(modal => {
+        closeModal(modal)
+        })
+    })
+    
+
+    function openModal (modal) {
+        modal.classList.add('active');
+        // Overlay is already declared global function
+        overlay.classList.add('active');
+    }
+
+    function closeModal(modal) {
+        modal.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+
+}
+export {initializeDom , initializeModals}
