@@ -26,7 +26,8 @@ const initializeDom = () => {
     const content = createDivClass("content");
         const divAddContainer = document.createElement('div');
             const divAdd = createDivClass("add");
-            divAdd.setAttribute('id' , 'addToDo');
+            // divAdd.setAttribute('id' , 'addToDo');
+            divAdd.dataset.openModal = "#addToDo"
             divAdd.textContent = "+"
             divAddContainer.appendChild(divAdd);
         content.appendChild(divAddContainer);
@@ -35,7 +36,7 @@ const initializeDom = () => {
     overlay.setAttribute('id' , "overlay");
     document.body.appendChild(overlay);
     const modal = createDivClass("modal");
-    modal.setAttribute('id' , "modal");
+    modal.setAttribute('id' , "addToDo");
         const form = document.createElement('form');
         form.setAttribute('id' , 'newToDo');
             const field1 = createDivClass("field");
@@ -71,8 +72,8 @@ const initializeDom = () => {
             const button = document.createElement('button');
             button.setAttribute('type', 'button');
             button.classList.add('addToDo');
-            button.setAttribute('id', 'addToDo');
-            button.textContent = "Submit";
+            button.dataset.closeModal="";
+            button.textContent = "Add Note";
         appendElements(form,field1,field2,field3,button);
 
         modal.appendChild(form);
