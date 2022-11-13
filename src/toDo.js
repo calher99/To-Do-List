@@ -1,5 +1,4 @@
 
-
 function toDoFactory () {
     
     let _title = '';
@@ -7,40 +6,44 @@ function toDoFactory () {
     let _priority = '';
     let _notes = '';
     let _checklist = '';
+    let _project = '';
 
-    const initializeToDo = (word,note,date,level,check) => {
+    const initializeToDo = (word,note,date,level,check,project) => {
         _title = word;
         _notes = note;
         _dueDate = date;
         _priority = level;
         _checklist = check;
+        _project = project;
     }
     const setTitle = (word) => _title = word;
-    const setdueDate = (date) => _dueDate = date;
+    const setDueDate = (date) => _dueDate = date;
     const setPriority = (level) => _priority = level;
     const setNotes = (note) => _notes = note;
     const setChecklist = (check) => _checklist = check;
 
     const getTitle = () => _title;
-    const getdueDate = () => _dueDate;
+    const getDueDate = () => _dueDate;
     const getPriority = () => _priority;
     const getNotes = () => _notes;
     const getChecklist = () => _checklist;
+    const getProject = () => _project;
     
 
     return{
 
         initializeToDo,
         setTitle,
-        setdueDate,
+        setDueDate,
         setPriority,
         setNotes,
         setChecklist,
         getTitle,
-        getdueDate,
+        getDueDate,
         getPriority,
         getNotes,
-        getChecklist         
+        getChecklist,
+        getProject        
     }
 }
 

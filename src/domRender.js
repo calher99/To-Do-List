@@ -24,6 +24,7 @@ const initializeDom = () => {
     const sideBar = createDivClass("sidebar");
     document.body.appendChild(sideBar);
     const content = createDivClass("content");
+    content.setAttribute('id', 'content');
         const divAddContainer = document.createElement('div');
             const divAdd = createDivClass("add");
             // divAdd.setAttribute('id' , 'addToDo');
@@ -72,7 +73,7 @@ const initializeDom = () => {
             const button = document.createElement('button');
             button.setAttribute('type', 'button');
             button.classList.add('addToDo');
-            button.dataset.closeModal="";
+            button.dataset.closeModal="addToDo";
             button.textContent = "Add Note";
         appendElements(form,field1,field2,field3,button);
 
@@ -113,7 +114,6 @@ const initializeModals = () => {
 
     function openModal (modal) {
         modal.classList.add('active');
-        // Overlay is already declared global function
         overlay.classList.add('active');
     }
 
@@ -123,4 +123,32 @@ const initializeModals = () => {
     }
 
 }
-export {initializeDom , initializeModals}
+
+
+const printToDo = (toDo) =>{
+
+    const toDoContainer = createDivClass("todo");
+        const divCheck = document.createElement('div');
+            const check = createDivClass("checkBox");
+        divCheck.appendChild(check);
+
+        const title = document.createElement('div');
+        title.textContent = toDo.getTitle();
+
+        const date = document.createElement('div');
+        date.textContent = toDo.getDueDate();
+
+        //Append the SVG
+        // <div>
+        //         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+        //         <path fill="currentColor" d="M14.4,6L14,4H5V21H7V14H12.6L13,16H20V6H14.4Z" />
+        //         </svg>
+        // </div>
+        
+    appendElements(toDoContainer,divCheck,title,date);
+    const content = document.querySelector('#content');
+    content.appendChild(toDoContainer);
+}
+
+
+export {initializeDom , initializeModals , printToDo}
