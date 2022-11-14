@@ -125,15 +125,28 @@ const initializeModals = () => {
 }
 
 
-const printToDo = (toDo) =>{
-
+const printToDoList = (list) =>{
     const content = document.querySelector('#content');
+    while (content.firstChild) {
+            content.removeChild(content.lastChild);
+    }
+    list.forEach( (toDo) =>{
+        printToDo(toDo)
+    })
 
-    //This must be run only the first time it starts printing
-    // while (content.firstChild) {
-    //     content.removeChild(tableRow.lastChild);
-    //   }
+    const divAddContainer = document.createElement('div');
+            const divAdd = createDivClass("add");
+            // divAdd.setAttribute('id' , 'addToDo');
+            divAdd.dataset.openModal = "#addToDo"
+            divAdd.textContent = "+"
+            divAddContainer.appendChild(divAdd);
+    content.appendChild(divAddContainer);
+    initializeModals();
 
+
+}
+const printToDo = (toDo) =>{
+    const content = document.querySelector('#content');
     const toDoContainer = createDivClass("todo");
         const divCheck = document.createElement('div');
             const check = createDivClass("checkBox");
@@ -157,4 +170,4 @@ const printToDo = (toDo) =>{
 }
 
 
-export {initializeDom , initializeModals , printToDo}
+export {initializeDom , initializeModals , printToDoList}
