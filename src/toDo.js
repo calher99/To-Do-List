@@ -43,7 +43,7 @@ function toDoFactory () {
         getPriority,
         getNotes,
         getChecklist,
-        getProject        
+        getProject
     }
 }
 

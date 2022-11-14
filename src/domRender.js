@@ -127,6 +127,13 @@ const initializeModals = () => {
 
 const printToDo = (toDo) =>{
 
+    const content = document.querySelector('#content');
+
+    //This must be run only the first time it starts printing
+    // while (content.firstChild) {
+    //     content.removeChild(tableRow.lastChild);
+    //   }
+
     const toDoContainer = createDivClass("todo");
         const divCheck = document.createElement('div');
             const check = createDivClass("checkBox");
@@ -138,15 +145,14 @@ const printToDo = (toDo) =>{
         const date = document.createElement('div');
         date.textContent = toDo.getDueDate();
 
-        //Append the SVG
-        // <div>
-        //         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-        //         <path fill="currentColor" d="M14.4,6L14,4H5V21H7V14H12.6L13,16H20V6H14.4Z" />
-        //         </svg>
-        // </div>
+        const svgContainer = document.createElement('div');
+            
+            const priority = createDivClass("priority");
         
-    appendElements(toDoContainer,divCheck,title,date);
-    const content = document.querySelector('#content');
+        svgContainer.appendChild(priority);
+        
+        
+    appendElements(toDoContainer,divCheck,title,date,svgContainer);
     content.appendChild(toDoContainer);
 }
 
