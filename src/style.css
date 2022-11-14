@@ -85,11 +85,14 @@ hr{
 }
 
 .priority{
-    height: 10px;
-    width: 10px;
-    background-color: #0f172a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    border-radius: 10px;
+    width: 100px;
+    height: 23px;
 }
-
 
 input[type="radio"]{
     width: 1.2rem;
