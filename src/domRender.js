@@ -69,13 +69,31 @@ const initializeDom = () => {
                 inputDate.setAttribute('id' , 'date');
                 inputDate.setAttribute('name' , 'date');
             appendElements(field3,labelDate,inputDate);
-
+            const field4= createDivClass("field");
+                const labelPriority = document.createElement('label');
+                labelPriority.setAttribute('for','priority');
+                labelPriority.textContent = "Select a priority level:";
+                const selectPriority = document.createElement("select");
+                selectPriority.setAttribute('name' , 'priority');
+                selectPriority.setAttribute('id' , 'priority');
+                    const option1 = document.createElement('option');
+                    option1.setAttribute('value', 'High');
+                    option1.textContent = "High";
+                    const option2 = document.createElement('option');
+                    option2.setAttribute('value', 'Medium');
+                    option2.textContent = "Medium";
+                    const option3 = document.createElement('option');
+                    option3.setAttribute('value', 'Low');
+                    option3.textContent = "Low";
+                appendElements(selectPriority,option1,option2,option3);
+            appendElements(field4,labelPriority,selectPriority);
+            
             const button = document.createElement('button');
             button.setAttribute('type', 'button');
             button.classList.add('addToDo');
             button.dataset.closeModal="addToDo";
             button.textContent = "Add Note";
-        appendElements(form,field1,field2,field3,button);
+        appendElements(form,field1,field2,field3,field4,button);
 
         modal.appendChild(form);
     document.body.appendChild(modal);
@@ -141,6 +159,7 @@ const printToDoList = (list) =>{
             divAdd.textContent = "+"
             divAddContainer.appendChild(divAdd);
     content.appendChild(divAddContainer);
+
     initializeModals();
 
 
@@ -158,16 +177,18 @@ const printToDo = (toDo) =>{
         const date = document.createElement('div');
         date.textContent = toDo.getDueDate();
 
-        const svgContainer = document.createElement('div');
+        const svgContainer = createDivClass("priority");
+        svgContainer.textContent = toDo.getPriority();
             
-            const priority = createDivClass("priority");
-        
-        svgContainer.appendChild(priority);
+
         
         
     appendElements(toDoContainer,divCheck,title,date,svgContainer);
     content.appendChild(toDoContainer);
 }
+
+
+
 
 
 export {initializeDom , initializeModals , printToDoList}

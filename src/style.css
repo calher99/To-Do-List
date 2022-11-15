@@ -156,7 +156,8 @@ input:focus{
 
 button,
 label,
-input
+input,
+select
    {
     width: 70%;
     font-family: inherit;
