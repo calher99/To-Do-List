@@ -8,12 +8,11 @@ function toDoFactory () {
     let _checklist = '';
     let _project = '';
 
-    const initializeToDo = (word,note,date,level,check,project) => {
+    const initializeToDo = (word,note,date,level,project) => {
         _title = word;
         _notes = note;
         _dueDate = date;
         _priority = level;
-        _checklist = check;
         _project = project;
     }
     const setTitle = (word) => _title = word;

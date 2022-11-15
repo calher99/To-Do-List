@@ -74,6 +74,10 @@ hr{
     cursor: pointer;
 }
 
+.todo.crossed{
+    color: var(--medium);
+}
+
 .checkBox{
     width: 10px;
     height: 10px;

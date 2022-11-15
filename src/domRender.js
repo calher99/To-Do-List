@@ -166,6 +166,7 @@ const printToDoList = (list) =>{
 }
 const printToDo = (toDo) =>{
     const content = document.querySelector('#content');
+    
     const toDoContainer = createDivClass("todo");
         const divCheck = document.createElement('div');
             const check = createDivClass("checkBox");
@@ -179,11 +180,34 @@ const printToDo = (toDo) =>{
 
         const svgContainer = createDivClass("priority");
         svgContainer.textContent = toDo.getPriority();
-            
+            if(toDo.getPriority() === ""){
+                svgContainer.setAttribute('style' , 'background-color: red;');
+            }else if (toDo.getPriority() === "High"){
+                svgContainer.setAttribute("style", "background-color: red;");
+            }else if (toDo.getPriority() === "Medium"){
+                svgContainer.setAttribute("style", "background-color: blue;");
+            }else{
+                svgContainer.setAttribute("style", "background-color: green;");
+            }
 
-        
-        
-    appendElements(toDoContainer,divCheck,title,date,svgContainer);
+        if(toDo.getChecklist()===true){
+
+            const crossOut1 = document.createElement('s');
+            crossOut1.appendChild(title);
+    
+            const crossOut2 = document.createElement('s');
+            crossOut2.appendChild(date);
+    
+            const crossOut3 = document.createElement('s');
+            crossOut3.appendChild(svgContainer);
+
+            appendElements(toDoContainer,divCheck,crossOut1,crossOut2,crossOut3);
+
+        }else{
+            appendElements(toDoContainer,divCheck,title,date,svgContainer);
+        }
+    
+    
     content.appendChild(toDoContainer);
 }
 
