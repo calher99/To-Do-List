@@ -5,7 +5,7 @@ function toDoFactory () {
     let _dueDate = '';
     let _priority = '';
     let _notes = '';
-    let _checklist = '';
+    let _checklist = 0;
     let _project = '';
 
     const initializeToDo = (word,note,date,level,project) => {
@@ -20,6 +20,13 @@ function toDoFactory () {
     const setPriority = (level) => _priority = level;
     const setNotes = (note) => _notes = note;
     const setChecklist = (check) => _checklist = check;
+    const clickCheck = () =>{
+        if (_checklist === 0){
+            _checklist=1;
+        }else{
+            _checklist=0;
+        }
+    }
 
     const getTitle = () => _title;
     const getDueDate = () => _dueDate;
@@ -42,7 +49,8 @@ function toDoFactory () {
         getPriority,
         getNotes,
         getChecklist,
-        getProject
+        getProject,
+        clickCheck
     }
 }
 

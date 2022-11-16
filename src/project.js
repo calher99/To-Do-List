@@ -2,8 +2,8 @@
 
 function projectFactory () {
 
-    const _title = '';
-    const _description = '';
+    let _title = '';
+    let _description = '';
     let _toDoList = [];
     
     const setTitle = (word) => _title = word;

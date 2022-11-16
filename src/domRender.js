@@ -23,6 +23,16 @@ const initializeDom = () => {
 
     const sideBar = createDivClass("sidebar");
     document.body.appendChild(sideBar);
+        const nav = document.createElement('nav');
+        nav.setAttribute('id','projectList')
+    sideBar.appendChild(nav)
+    const divAddProject = document.createElement('div');
+        const divAdd2 = createDivClass("add");
+                divAdd2.dataset.openModal = "#addProject"
+                divAdd2.textContent = "+"
+        divAddProject.appendChild(divAdd2);
+    nav.appendChild(divAddProject);
+    // <div><div class="add">+</div></div>
     const content = createDivClass("content");
     content.setAttribute('id', 'content');
         const divAddContainer = document.createElement('div');
@@ -53,7 +63,6 @@ const initializeDom = () => {
                 const labelNotes = document.createElement('label');
                 labelNotes.textContent = "Notes:"
                 labelNotes.setAttribute('for','notes');
-                labelTitle.textContent = "Notes";
                 const inputNotes = document.createElement("textarea");
                 inputNotes.setAttribute('id' , 'notes');
                 inputNotes.setAttribute('name' , 'notes');
@@ -97,6 +106,40 @@ const initializeDom = () => {
 
         modal.appendChild(form);
     document.body.appendChild(modal);
+///////////////////////////////
+        const modalProject = createDivClass("modal");
+        modalProject.setAttribute('id' , "addProject");
+        const form2 = document.createElement('form');
+        form2.setAttribute('id' , 'newProject');
+            const field5 = createDivClass("field");
+                const labelName = document.createElement('label');
+                labelName.setAttribute('for','name');
+                labelName.textContent = "Name: *";
+                const inputName = document.createElement("input");
+                inputName.setAttribute('type' , 'name');
+                inputName.setAttribute('id' , 'name');
+                inputName.setAttribute('name' , 'name');
+            appendElements(field5,labelName,inputName);
+            const field6 = createDivClass("field");
+                const labelDescription = document.createElement('label');
+                labelDescription.textContent = "Description:"
+                labelDescription.setAttribute('for','description');
+                const inputDescription = document.createElement("textarea");
+                inputDescription.setAttribute('id' , 'description');
+                inputDescription.setAttribute('name' , 'description');
+                inputDescription.setAttribute('rows' , '4');
+                inputDescription.setAttribute('cols' , '50');
+            appendElements(field6,labelDescription,inputDescription);
+            
+            const buttonProject = document.createElement('button');
+            buttonProject.setAttribute('type', 'button');
+            buttonProject.classList.add('addProject');
+            buttonProject.dataset.closeModal="addProject";
+            buttonProject.textContent = "Add Project";
+        appendElements(form2,field5,field6,buttonProject);
+
+        modalProject.appendChild(form2);
+    document.body.appendChild(modalProject);
 
 }
 
@@ -170,6 +213,14 @@ const printToDo = (toDo) =>{
     const toDoContainer = createDivClass("todo");
         const divCheck = document.createElement('div');
             const check = createDivClass("checkBox");
+            check.addEventListener('click', ()=>{
+                toDo.clickCheck();
+
+                while (toDoContainer.firstChild) {
+                    toDoContainer.removeChild(toDoContainer.lastChild); 
+                }
+                setCheck();
+            });
         divCheck.appendChild(check);
 
         const title = document.createElement('div');
@@ -180,18 +231,17 @@ const printToDo = (toDo) =>{
 
         const svgContainer = createDivClass("priority");
         svgContainer.textContent = toDo.getPriority();
-            if(toDo.getPriority() === ""){
-                svgContainer.setAttribute('style' , 'background-color: red;');
-            }else if (toDo.getPriority() === "High"){
-                svgContainer.setAttribute("style", "background-color: red;");
-            }else if (toDo.getPriority() === "Medium"){
-                svgContainer.setAttribute("style", "background-color: blue;");
-            }else{
-                svgContainer.setAttribute("style", "background-color: green;");
-            }
+        setColorPriority(svgContainer,toDo);
 
-        if(toDo.getChecklist()===true){
+        setCheck();
+        
+    
+    
+    content.appendChild(toDoContainer);
 
+    function setCheck() {
+        if(toDo.getChecklist()===1){
+            toDoContainer.classList.add("crossed")
             const crossOut1 = document.createElement('s');
             crossOut1.appendChild(title);
     
@@ -204,15 +254,53 @@ const printToDo = (toDo) =>{
             appendElements(toDoContainer,divCheck,crossOut1,crossOut2,crossOut3);
 
         }else{
+            toDoContainer.classList.remove("crossed")
             appendElements(toDoContainer,divCheck,title,date,svgContainer);
         }
-    
-    
-    content.appendChild(toDoContainer);
+    }
 }
 
 
+function setColorPriority(div , toDo){
+    if(toDo.getPriority() === ""){
+        div.setAttribute('style' , 'background-color: red;');
+    }else if (toDo.getPriority() === "High"){
+        div.setAttribute("style", "background-color: red;");
+    }else if (toDo.getPriority() === "Medium"){
+        div.setAttribute("style", "background-color: blue;");
+    }else{
+        div.setAttribute("style", "background-color: green;");
+    }
+}
 
+const printProjectList = (projects) => {
+    const navPointer = document.querySelector('#projectList');
+    while (navPointer.firstChild) {
+        navPointer.removeChild(navPointer.lastChild);
+    }
 
+    projects.forEach( (project) =>{
+         printProject(project)
+    })
 
-export {initializeDom , initializeModals , printToDoList}
+    const divAddContainer = document.createElement('div');
+            const divAdd = createDivClass("add");
+            // divAdd.setAttribute('id' , 'addToDo');
+            divAdd.dataset.openModal = "#addProject"
+            divAdd.textContent = "+"
+            divAddContainer.appendChild(divAdd);
+    navPointer.appendChild(divAddContainer);
+
+    initializeModals();
+    
+}
+
+const printProject = (project) => {
+    const navPointer = document.querySelector('#projectList');
+        const div = createDivClass("project");
+        div.textContent = project.getTitle();
+        const hr = document.createElement('hr');
+    appendElements(navPointer,div,hr);
+}
+
+export {initializeDom , initializeModals , printToDoList, printProjectList}
