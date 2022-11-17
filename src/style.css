@@ -25,15 +25,30 @@ body{
     
 }
 
+.sidebarField{
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+
 .sidebar{
     color: black;
     padding: 10px;
 }
 
+.icon{
+    background-color: #0f172a;
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+}
+
 nav{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    /* gap: 10px; */
     align-items: center;
 }
 
@@ -41,11 +56,20 @@ nav{
     cursor: pointer;
     width: 100%;
     text-align: center;
+    
+    padding: 15px;
+}
+
+.project.active{
+    background-color: var(--light);
+    font-weight: bold;
 }
 
 hr{
+    margin: 2px;
     width: 60%;
 }
+
 
 .add{
     display: flex;
@@ -92,7 +116,6 @@ hr{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: red;
     border-radius: 10px;
     width: 100px;
     height: 23px;
