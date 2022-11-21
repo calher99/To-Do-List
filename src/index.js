@@ -7,7 +7,7 @@ import './style.css';
 initializeDom();
 initializeModals();
 
-const toDoList = [];
+export const toDoList = [];
 if (localStorage.getItem('ToDoStored')) {
     retrieveStoredToDo(toDoList);
 } 
@@ -31,14 +31,14 @@ if (!localStorage.getItem('ProjectsStored')) {
   } else {
     retrieveStoredProject(projectList);
   }
-console.log(projectList);
+
 printProjectList(projectList);
 
 
 
 let buttonSubmit = document.querySelector("[data-close-modal = 'addToDo']")
 buttonSubmit.addEventListener('click' , submitForm)
-
+let ToDoList_serialized = [];
 
 
 function submitForm () {
@@ -46,14 +46,14 @@ function submitForm () {
     
     //Filter projectList to see which one has getSelected === 1 y le metemos esa property
     const projectSelected = getSelected(projectList);
-    const NewToDo = new ToDo(title.value,date.value,priority.value,notes.value,projectSelected);
+    const NewToDo = new ToDo(title.value,date.value,priority.value,notes.value,projectSelected,0);
     toDoList.push(NewToDo);
     
     const listWithProject = filterToDo(projectSelected);
 
     // STORE THE LIST 
-    
-    let ToDoList_serialized = JSON.stringify(toDoList);
+    updateToDoStorage(toDoList)
+    ToDoList_serialized = JSON.stringify(toDoList);
     localStorage.setItem("ToDoStored" , ToDoList_serialized);
     
     printToDoList(listWithProject);
@@ -62,7 +62,10 @@ function submitForm () {
   
 }
 
-
+export function updateToDoStorage (list) {
+    ToDoList_serialized = JSON.stringify(list);
+    localStorage.setItem("ToDoStored" , ToDoList_serialized);
+}
 
 
 let buttonProject = document.querySelector("[data-close-modal = 'addProject']")
@@ -125,8 +128,7 @@ function clearInputs () {
 
 function filterToDo (projectName) {
     const newList = [];
-    console.log(projectName);
-    console.log("This are the toDos that match")
+
     for (let i= 0 ; i<toDoList.length ; i++){
         if (toDoList[i].project === projectName){
             newList.push(toDoList[i])
@@ -146,11 +148,11 @@ function retrieveStoredProject(list) {
 }
 
 function retrieveStoredToDo(list){
-    
+
     const normalObject = JSON.parse(localStorage.getItem('ToDoStored'));
 
     for (let i=0; i<normalObject.length;i++){
-        const newToDo = new ToDo(normalObject[i].title, normalObject[i].dueDate, normalObject[i].priority, normalObject[i].description, normalObject[i].project);
+        const newToDo = new ToDo(normalObject[i].title, normalObject[i].dueDate, normalObject[i].priority, normalObject[i].description, normalObject[i].project, normalObject[i].checklist);
         list.push(newToDo);
     
     }

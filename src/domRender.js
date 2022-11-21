@@ -1,6 +1,6 @@
 import flag from './svgs/flag.svg'
-import {resetSelectedProject , filterToDo , retrieveStoredProject, updateProjectStorage} from './index.js';
-import { projectList } from './index.js';
+import {resetSelectedProject , filterToDo , retrieveStoredProject, updateProjectStorage, updateToDoStorage} from './index.js';
+import { projectList , toDoList } from './index.js';
 //functions to append
 
 const createDivClass = (className) =>{
@@ -212,6 +212,7 @@ const initializeModals = () => {
 
 
 const printToDoList = (list) =>{
+
     const content = document.querySelector('#content');
     while (content.firstChild) {
             content.removeChild(content.lastChild);
@@ -234,7 +235,6 @@ const printToDoList = (list) =>{
 }
 const printToDo = (toDo) =>{
     const content = document.querySelector('#content');
-    
     const toDoContainer = createDivClass("todo");
         const divCheck = document.createElement('div');
             const check = createDivClass("checkBox");
@@ -245,6 +245,8 @@ const printToDo = (toDo) =>{
                     toDoContainer.removeChild(toDoContainer.lastChild); 
                 }
                 setCheck();
+                updateToDoStorage(toDoList);
+
             });
         divCheck.appendChild(check);
 
@@ -260,7 +262,6 @@ const printToDo = (toDo) =>{
         // const svgImage = document.createElement('img');
         // svgImage.src = flag;
         // svgContainer.appendChild(svgImage);
-
         setCheck();
         
     
@@ -331,24 +332,14 @@ const printProject = (project) => {
     const navPointer = document.querySelector('#projectList');
         const div = createDivClass("project");
         div.textContent = project.title;
-        // if(project.getSelected() === 1){
+        const hr = document.createElement('hr');
+        const listToDo = filterToDo(project.title);
+
         if(project.selected === 1){
             div.classList.add('active');
-        }
-        // div.dataset.projectName = project.getTitle();
-        const hr = document.createElement('hr');
-
-        const listToDo = filterToDo(project.title);
-        console.log(project.title);
-        console.log("This is its list:")
-        console.log(listToDo);
-        if(listToDo .length !== 0){
             printToDoList(listToDo);
-        }else{
-            console.log("NOOO ARRAYY")
         }
-        
-
+      
         div.addEventListener('click', (e) => {
             //get dataset
             // console.log(e.target.dataset.projectName);
