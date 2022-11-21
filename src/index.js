@@ -18,7 +18,7 @@ const notes = document.querySelector('#notes');
 const date = document.querySelector('#date');
 const priority = document.querySelector('#priority');
 
-const projectList = [];
+export const projectList = [];
 // const defaultProject = projectFactory();
 //     //NEEDS IMPROVEMENT
 // defaultProject.setTitle("Default Project");
@@ -31,7 +31,7 @@ if (!localStorage.getItem('ProjectsStored')) {
   } else {
     retrieveStoredProject(projectList);
   }
-
+console.log(projectList);
 printProjectList(projectList);
 
 
@@ -71,7 +71,7 @@ buttonProject.addEventListener('click' , submitProject)
 
 const name = document.querySelector('#name');
 const description = document.querySelector('#description');
-
+let projectList_serialized= [];
 function submitProject () {
     
 
@@ -81,15 +81,19 @@ function submitProject () {
     
     // STORE THE LIST 
     
-    let projectList_serialized = JSON.stringify(projectList);
-    localStorage.setItem("ProjectsStored" , projectList_serialized);
-
+    
+    updateProjectStorage(projectList);
     
     printProjectList(projectList);
     
     
     clearInputs();
   
+}
+
+export function updateProjectStorage (list) {
+    projectList_serialized = JSON.stringify(list);
+    localStorage.setItem("ProjectsStored" , projectList_serialized);
 }
 
 function getSelected (projects) {

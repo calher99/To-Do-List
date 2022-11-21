@@ -1,6 +1,6 @@
 import flag from './svgs/flag.svg'
-import {resetSelectedProject , filterToDo , retrieveStoredProject} from './index.js';
-
+import {resetSelectedProject , filterToDo , retrieveStoredProject, updateProjectStorage} from './index.js';
+import { projectList } from './index.js';
 //functions to append
 
 const createDivClass = (className) =>{
@@ -359,10 +359,12 @@ const printProject = (project) => {
             //actualProject to store the dataset and add it to new created toDo
             resetSelectedProject();
             project.selected =1;
-            
+            updateProjectStorage(projectList);
             //displayList: to display todos with that name
             const listToDo = filterToDo(project.title);
             printToDoList(listToDo);
+
+
 
         });
     appendElements(navPointer,div,hr);
