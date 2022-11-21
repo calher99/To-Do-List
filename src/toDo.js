@@ -1,11 +1,11 @@
 export default class ToDo {
-    constructor (_title , _dueDate, _priority, _description, _project) {
+    constructor (_title , _dueDate, _priority, _description, _project, _checklist) {
         this.title = _title;
         this.dueDate = _dueDate;
         this.priority = _priority;
         this.description = _description;
         this.project = _project;
-        this.checklist = 0;
+        this.checklist= _checklist;
     }
 
     clickCheck(){
