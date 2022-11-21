@@ -1,3 +1,6 @@
+import flag from './svgs/flag.svg'
+import {resetSelectedProject , filterToDo , retrieveStoredProject} from './index.js';
+
 //functions to append
 
 const createDivClass = (className) =>{
@@ -23,6 +26,11 @@ const initializeDom = () => {
 
     const sideBar = createDivClass("sidebar");
     document.body.appendChild(sideBar);
+        const sideBarField = createDivClass("sidebarField");
+            const sidebarIcon = createDivClass("icon");
+            const usernameDiv = createDivText("Username");
+        appendElements(sideBarField,sidebarIcon,usernameDiv);
+    sideBar.appendChild(sideBarField);
         const nav = document.createElement('nav');
         nav.setAttribute('id','projectList')
     sideBar.appendChild(nav)
@@ -86,15 +94,18 @@ const initializeDom = () => {
                 selectPriority.setAttribute('name' , 'priority');
                 selectPriority.setAttribute('id' , 'priority');
                     const option1 = document.createElement('option');
-                    option1.setAttribute('value', 'High');
-                    option1.textContent = "High";
+                    option1.setAttribute('value', '');
+                    option1.textContent = "none";
                     const option2 = document.createElement('option');
-                    option2.setAttribute('value', 'Medium');
-                    option2.textContent = "Medium";
+                    option2.setAttribute('value', 'High');
+                    option2.textContent = "High";
                     const option3 = document.createElement('option');
-                    option3.setAttribute('value', 'Low');
-                    option3.textContent = "Low";
-                appendElements(selectPriority,option1,option2,option3);
+                    option3.setAttribute('value', 'Medium');
+                    option3.textContent = "Medium";
+                    const option4 = document.createElement('option');
+                    option4.setAttribute('value', 'Low');
+                    option4.textContent = "Low";
+                appendElements(selectPriority,option1,option2,option3,option4);
             appendElements(field4,labelPriority,selectPriority);
             
             const button = document.createElement('button');
@@ -106,7 +117,7 @@ const initializeDom = () => {
 
         modal.appendChild(form);
     document.body.appendChild(modal);
-///////////////////////////////
+///////////////////////////////MODAL 2
         const modalProject = createDivClass("modal");
         modalProject.setAttribute('id' , "addProject");
         const form2 = document.createElement('form');
@@ -140,6 +151,20 @@ const initializeDom = () => {
 
         modalProject.appendChild(form2);
     document.body.appendChild(modalProject);
+
+// CALL LOCAL STORAGE
+
+    //  const projectListStored = retrieveStoredProject()
+    //  console.log(projectListStored)
+    //  printProjectList(projectListStored)
+// if (storageAvailable('localStorage')) {
+//     let StoredProjects = JSON.parse(localStorage.getItem('ProjectsStored'));
+//     console.log(StoredProjects);
+//   }
+//   else {
+//     console.log("NO LOCAL STORAGEEEEE")
+//   }
+    
 
 }
 
@@ -224,14 +249,17 @@ const printToDo = (toDo) =>{
         divCheck.appendChild(check);
 
         const title = document.createElement('div');
-        title.textContent = toDo.getTitle();
+        title.textContent = toDo.title;
 
         const date = document.createElement('div');
-        date.textContent = toDo.getDueDate();
-
+        date.textContent = toDo.dueDate;
+           
         const svgContainer = createDivClass("priority");
-        svgContainer.textContent = toDo.getPriority();
+        svgContainer.textContent = toDo.priority;
         setColorPriority(svgContainer,toDo);
+        // const svgImage = document.createElement('img');
+        // svgImage.src = flag;
+        // svgContainer.appendChild(svgImage);
 
         setCheck();
         
@@ -240,7 +268,8 @@ const printToDo = (toDo) =>{
     content.appendChild(toDoContainer);
 
     function setCheck() {
-        if(toDo.getChecklist()===1){
+        
+        if(toDo.checklist===1){
             toDoContainer.classList.add("crossed")
             const crossOut1 = document.createElement('s');
             crossOut1.appendChild(title);
@@ -262,25 +291,27 @@ const printToDo = (toDo) =>{
 
 
 function setColorPriority(div , toDo){
-    if(toDo.getPriority() === ""){
-        div.setAttribute('style' , 'background-color: red;');
-    }else if (toDo.getPriority() === "High"){
-        div.setAttribute("style", "background-color: red;");
-    }else if (toDo.getPriority() === "Medium"){
-        div.setAttribute("style", "background-color: blue;");
+    if(toDo.priority === ""){
+        return;
+    }else if (toDo.priority  === "High"){
+        div.setAttribute("style", "color: red;");
+    }else if (toDo.priority  === "Medium"){
+        div.setAttribute("style", "color: blue;");
     }else{
-        div.setAttribute("style", "background-color: green;");
+        div.setAttribute("style", "color: green;");
     }
+    return;
 }
 
 const printProjectList = (projects) => {
+    
     const navPointer = document.querySelector('#projectList');
     while (navPointer.firstChild) {
         navPointer.removeChild(navPointer.lastChild);
     }
 
     projects.forEach( (project) =>{
-         printProject(project)
+        printProject(project)
     })
 
     const divAddContainer = document.createElement('div');
@@ -290,17 +321,61 @@ const printProjectList = (projects) => {
             divAdd.textContent = "+"
             divAddContainer.appendChild(divAdd);
     navPointer.appendChild(divAddContainer);
-
+    
     initializeModals();
     
 }
 
 const printProject = (project) => {
+     
     const navPointer = document.querySelector('#projectList');
         const div = createDivClass("project");
-        div.textContent = project.getTitle();
+        div.textContent = project.title;
+        // if(project.getSelected() === 1){
+        if(project.selected === 1){
+            div.classList.add('active');
+        }
+        // div.dataset.projectName = project.getTitle();
         const hr = document.createElement('hr');
+
+        const listToDo = filterToDo(project.title);
+        console.log(project.title);
+        console.log("This is its list:")
+        console.log(listToDo);
+        if(listToDo .length !== 0){
+            printToDoList(listToDo);
+        }else{
+            console.log("NOOO ARRAYY")
+        }
+        
+
+        div.addEventListener('click', (e) => {
+            //get dataset
+            // console.log(e.target.dataset.projectName);
+             //remove active from othes
+            removeActiveClass(navPointer);
+            //add active class
+            e.target.classList.add('active')
+            //actualProject to store the dataset and add it to new created toDo
+            resetSelectedProject();
+            project.selected =1;
+            
+            //displayList: to display todos with that name
+            const listToDo = filterToDo(project.title);
+            printToDoList(listToDo);
+
+        });
     appendElements(navPointer,div,hr);
+    
 }
+
+function removeActiveClass (element) {
+    const children = Array.from(element.childNodes);
+    children.forEach(child => {
+        child.classList.remove('active');
+    })
+}
+
+
 
 export {initializeDom , initializeModals , printToDoList, printProjectList}

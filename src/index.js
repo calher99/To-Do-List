@@ -1,5 +1,5 @@
-import toDoFactory from "./toDo.js";
-import projectFactory from "./project.js";
+import ToDo from "./toDo.js";
+import Project from "./project.js";
 import {initializeDom , initializeModals , printToDoList, printProjectList} from "./domRender.js";
 import './style.css';
 
@@ -8,51 +8,108 @@ initializeDom();
 initializeModals();
 
 const toDoList = [];
+if (localStorage.getItem('ToDoStored')) {
+    retrieveStoredToDo(toDoList);
+} 
+//print project list
 
 const title = document.querySelector('#title');
 const notes = document.querySelector('#notes');
 const date = document.querySelector('#date');
 const priority = document.querySelector('#priority');
-console.log(title)
+
+const projectList = [];
+// const defaultProject = projectFactory();
+//     //NEEDS IMPROVEMENT
+// defaultProject.setTitle("Default Project");
+// defaultProject.setDescription("Default");
+// defaultProject.setSelected(1);
+
+if (!localStorage.getItem('ProjectsStored')) {
+    const defaultProject = new Project("Default Project", "Default",1);
+    projectList.push(defaultProject);
+  } else {
+    retrieveStoredProject(projectList);
+  }
+
+printProjectList(projectList);
+
 
 
 let buttonSubmit = document.querySelector("[data-close-modal = 'addToDo']")
 buttonSubmit.addEventListener('click' , submitForm)
 
 
+
 function submitForm () {
     
-    const newToDo = toDoFactory();
-    newToDo.initializeToDo(title.value,notes.value,date.value,priority.value,"defaultProject");
-    toDoList.push(newToDo);
+    
+    //Filter projectList to see which one has getSelected === 1 y le metemos esa property
+    const projectSelected = getSelected(projectList);
+    const NewToDo = new ToDo(title.value,date.value,priority.value,notes.value,projectSelected);
+    toDoList.push(NewToDo);
+    
+    const listWithProject = filterToDo(projectSelected);
 
-    printToDoList(toDoList);
+    // STORE THE LIST 
+    
+    let ToDoList_serialized = JSON.stringify(toDoList);
+    localStorage.setItem("ToDoStored" , ToDoList_serialized);
+    
+    printToDoList(listWithProject);
     
     clearInputs();
   
 }
-const projectList = [];
+
+
+
+
 let buttonProject = document.querySelector("[data-close-modal = 'addProject']")
 buttonProject.addEventListener('click' , submitProject)
+
 
 const name = document.querySelector('#name');
 const description = document.querySelector('#description');
 
 function submitProject () {
-    const newProject = projectFactory();
-    //NEEDS IMPROVEMENT
-    newProject.setTitle(name.value);
-    newProject.setDescription(description.value);
-    projectList.push(newProject);
+    
 
+    const NewProject = new Project(name.value,description.value,0)
+
+    projectList.push(NewProject);
+    
+    // STORE THE LIST 
+    
+    let projectList_serialized = JSON.stringify(projectList);
+    localStorage.setItem("ProjectsStored" , projectList_serialized);
+
+    
     printProjectList(projectList);
+    
     
     clearInputs();
   
 }
 
+function getSelected (projects) {
+    
+    // const projectSelected = projects.filter(project => project.getSelected() ===1);
+    for (let i= 0 ; i<projects.length ; i++){
+        // if (projects[i].getSelected() ===1){
+        //     return projects[i].getTitle();
+        // }
+        if (projects[i].selected ===1){
+            return projects[i].title;
+        }
+    }
+}
 
-
+function resetSelectedProject () {
+    projectList.forEach( project => {
+        project.selected =0;
+    })
+}
 
 function clearInputs () {
     title.value = "";
@@ -61,3 +118,38 @@ function clearInputs () {
     name.value= "";
     description.value= "";
 }
+
+function filterToDo (projectName) {
+    const newList = [];
+    console.log(projectName);
+    console.log("This are the toDos that match")
+    for (let i= 0 ; i<toDoList.length ; i++){
+        if (toDoList[i].project === projectName){
+            newList.push(toDoList[i])
+        }
+    }
+    return newList;
+}
+ 
+function retrieveStoredProject(list) {
+    
+    const normalObject = JSON.parse(localStorage.getItem('ProjectsStored'));
+    for (let i=0; i<normalObject.length;i++){
+        const newProject = new Project(normalObject[i].title,normalObject[i].description,normalObject[i].selected);
+        list.push(newProject);
+    
+    }
+}
+
+function retrieveStoredToDo(list){
+    
+    const normalObject = JSON.parse(localStorage.getItem('ToDoStored'));
+
+    for (let i=0; i<normalObject.length;i++){
+        const newToDo = new ToDo(normalObject[i].title, normalObject[i].dueDate, normalObject[i].priority, normalObject[i].description, normalObject[i].project);
+        list.push(newToDo);
+    
+    }
+}
+
+export {resetSelectedProject , filterToDo, retrieveStoredProject};

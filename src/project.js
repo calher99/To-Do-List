@@ -1,32 +1,39 @@
 
 
-function projectFactory () {
+// function projectFactory () {
 
-    let _title = '';
-    let _description = '';
-    let _selected = 0;
-    let _toDoList = [];
+//     let _title = '';
+//     let _description = '';
+//     let _selected = 0;
+//     let _toDoList = [];
     
-    const setTitle = (word) => _title = word;
-    const setDescription = (text) => _description = text;
-    const setSelected = (boolean) => _selected = boolean;
-    const getTitle = () => _title;
-    const getDescription = () => _description;
-    const getSelected = () => _selected;
-    const addToDo = (toDo)  => {
-        _toDoList.push(toDo);
-    }
+//     const setTitle = (word) => _title = word;
+//     const setDescription = (text) => _description = text;
+//     const setSelected = (boolean) => _selected = boolean;
+//     const getTitle = () => _title;
+//     const getDescription = () => _description;
+//     const getSelected = () => _selected;
+//     const addToDo = (toDo)  => {
+//         _toDoList.push(toDo);
+//     }
 
-    return{
+//     return{
+//         setTitle,
+//         setDescription,
+//         setSelected,
+//         getTitle,
+//         getDescription,
+//         getSelected,
+//         addToDo
+//     }
+// }
 
-        setTitle,
-        setDescription,
-        setSelected,
-        getTitle,
-        getDescription,
-        getSelected,
-        addToDo
+// export default projectFactory
+
+export default class Project {
+    constructor (_title , _description, _selected) {
+        this.title = _title;
+        this.description = _description;
+        this.selected = _selected;
     }
 }
-
-export default projectFactory
