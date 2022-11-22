@@ -157,7 +157,7 @@ input[type="radio"]{
     z-index: 10;
     width: 40%;
     height: 50%;
-    background-color: white;
+    background-color: var(--light);
     border-radius: 5px;
     padding: 30px;
 
@@ -196,10 +196,20 @@ select
     height: 30px;
     border-radius: 6px;
   }
-input, textarea{
+input, textarea, button{
     border: 1px solid black;
    
   }
+ button {
+    width: 50%;
+    background-color: var(--superDark);
+    color: var(--superLight);
+    cursor: pointer;
+ }
+ button:hover{
+    background-color: var(--superLight);
+    color: var(--superDark);
+}
 
 textarea{
     font-family: inherit;
