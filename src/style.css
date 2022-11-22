@@ -83,6 +83,7 @@ hr{
     height: 30px;
     font-size: 1.3rem;
     cursor: pointer;
+    margin-top: 15px;
 }
 
 .todo{
@@ -154,11 +155,11 @@ input[type="radio"]{
     transform: translate(-50%, -50%)scale(0);
     transition: 200ms ease-in-out;
     z-index: 10;
-    width: 60%;
+    width: 40%;
     height: 50%;
     background-color: white;
     border-radius: 5px;
-    padding: 10px;
+    padding: 30px;
 
 }
 
