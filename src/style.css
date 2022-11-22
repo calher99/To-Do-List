@@ -28,7 +28,7 @@ body{
 .sidebarField{
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    justify-content: start;
     margin-bottom: 30px;
     gap: 10px;
 }
@@ -187,7 +187,7 @@ label,
 input,
 select
    {
-    width: 70%;
+    width: 85%;
     font-family: inherit;
     font-size: 100%;
     margin: 0;
@@ -198,11 +198,12 @@ select
   }
 input, textarea{
     border: 1px solid black;
+   
   }
 
 textarea{
     font-family: inherit;
-    width: 70%;
+    width: 85%;
 }
 
   .field{
