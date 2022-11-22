@@ -35,7 +35,6 @@ if (!localStorage.getItem('ProjectsStored')) {
 printProjectList(projectList);
 
 
-
 let buttonSubmit = document.querySelector("[data-close-modal = 'addToDo']")
 buttonSubmit.addEventListener('click' , submitForm)
 let ToDoList_serialized = [];
